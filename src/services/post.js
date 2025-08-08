@@ -14,6 +14,7 @@ export const postService = {
       const response = await api.post("/posts", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       });
       return response.data;
@@ -63,6 +64,7 @@ export const postService = {
       const response = await api.patch(`/posts/${slug}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       });
       return response.data;
@@ -77,7 +79,11 @@ export const postService = {
 
   async deletePost(slug) {
     try {
-      const response = await api.delete(`/posts/${slug}`);
+      const response = await api.delete(`/posts/${slug}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
       return response.data;
     } catch (error) {
       console.error(
