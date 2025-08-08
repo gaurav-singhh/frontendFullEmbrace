@@ -10,12 +10,13 @@ export default function RTE({ name, control, label, defaultValue = "" }) {
       <Controller
         name={name || "content"}
         control={control}
-        render={({ field: { onChange } }) => (
+        defaultValue={defaultValue}
+        render={({ field: { onChange, value } }) => (
           <Editor
             apiKey="rrzx4wchn4zqnx2ncdx0v664lt8bbp90i63mlokfb4t45k6h"
-            initialValue={defaultValue}
+            value={value}
+            onEditorChange={onChange}
             init={{
-              initialValue: defaultValue,
               height: 500,
               menubar: true,
               plugins: [
@@ -24,7 +25,6 @@ export default function RTE({ name, control, label, defaultValue = "" }) {
                 "advlist",
                 "autolink",
                 "lists",
-                "image",
                 "charmap",
                 "preview",
                 "anchor",
@@ -35,17 +35,14 @@ export default function RTE({ name, control, label, defaultValue = "" }) {
                 "insertdatetime",
                 "media",
                 "table",
-                "code",
                 "help",
                 "wordcount",
-                "anchor",
               ],
               toolbar:
                 "undo redo | blocks | link | image | bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help",
               content_style:
-                "body { font-family:Helvetica,Arial,sans-serif; font-size:14px; color:#333; }", // Ensure a proper color value
+                "body { font-family:Helvetica,Arial,sans-serif; font-size:14px; color:#333; }",
             }}
-            onEditorChange={onChange}
           />
         )}
       />
