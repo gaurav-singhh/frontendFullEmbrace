@@ -36,6 +36,9 @@ export const authService = {
   async login({ email, password }) {
     try {
       const response = await api.post("/users/login", { email, password });
+      if (response.data.data.accessToken) {
+        localStorage.setItem("accessToken", response.data.data.accessToken);
+      }
       return response.data;
     } catch (error) {
       console.error("Error logging in:", error.response?.data || error.message);
@@ -45,7 +48,11 @@ export const authService = {
 
   async getCurrentUser() {
     try {
-      const response = await api.get("/users/current-user");
+      const response = await api.get("/users/current-user", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
       return response.data.data;
     } catch (error) {
       // Return null or a specific error object if the user is not authenticated
@@ -56,6 +63,7 @@ export const authService = {
   async logout() {
     try {
       const response = await api.post("/users/logout");
+      localStorage.removeItem("accessToken");
       return response.data;
     } catch (error) {
       console.error(
