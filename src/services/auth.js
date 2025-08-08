@@ -48,11 +48,7 @@ export const authService = {
 
   async getCurrentUser() {
     try {
-      const response = await api.get("/users/current-user", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      });
+      const response = await api.get("/users/current-user");
       return response.data.data;
     } catch (error) {
       // Return null or a specific error object if the user is not authenticated
